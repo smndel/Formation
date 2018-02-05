@@ -22,7 +22,7 @@ class CreatePostsTable extends Migration
             $table->dateTime('ended_at');
             $table->decimal('price', 6, 2);
             $table->integer('student_max');
-            $table->enum('status', ['published', 'unpublished']);
+            $table->enum('status', ['published', 'unpublished'])->default('unpublished');
             $table->unsignedInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();

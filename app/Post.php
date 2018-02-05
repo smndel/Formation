@@ -19,4 +19,8 @@ class Post extends Model
     	return $this->hasOne(Picture::class);
     }
 
+    //Créer une fonction pour déterminer la durée du cours
+    // public function dateInterval($date1, $date2){
+    // 	return $interval = $date1->diff($date2);
+    // }
 }
