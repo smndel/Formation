@@ -8,11 +8,11 @@ class Post extends Model
 {
 
     public function category(){
-    	return $this->belongsTo(Genre::class);
+    	return $this->belongsTo(Category::class);
     }
 
     public function teachers(){
-    	return $this->belongsToMany(Author::class);
+    	return $this->belongsToMany(Teacher::class);
     }
 
     public function picture(){
