@@ -11,4 +11,10 @@
 |
 */
 //PAge d'accueil
-Route::get('/', 'Frontcontroller@index')->name('homre');
+Route::get('/', 'Frontcontroller@index')->name('home');
+
+//Route pour l'affichage d'une formation/stage
+Route::get('post/{id}', 'FrontController@show')->name('show');
+
+//Route pour les categories
+Route::get('category/{id}', 'FrontController@showBookByCategory')->name('category');

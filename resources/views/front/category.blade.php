@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>FORMATIONS NUMERIQUES</h1>
+<h1>{{$genre->name}}</h1>
 
-<ul class="list-group">
+ul class="list-group">
     @forelse($posts as $post)
     <li class="list-group-item">
-        <h2><a href="{{route('show', $post->id)}}">{{$post->title}}</a></h2>
+        <h2><a href="#">{{$post->title}}</a></h2>
         
         <h3><i>{{$post->post_type}}</i></h3>
 
