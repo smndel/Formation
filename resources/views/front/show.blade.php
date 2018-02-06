@@ -5,7 +5,7 @@
 @include('partials.menu')
         <h2>{{$post->title}}</h2>
         
-        <h3><i>{{$post->post_type}}</i></h3>
+        <h3><i>{{ucfirst($post->post_type)}}</i></h3>
 
         <h3>Catégorie : {{$post->category->name}}</h3>
 

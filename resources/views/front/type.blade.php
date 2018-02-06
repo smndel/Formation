@@ -10,9 +10,9 @@
     @forelse($posts as $post)
         
             <li class="list-group-item">
-                <h2><a href="#">{{$post->title}}</a></h2>
+                <h2><a href="{{route('show', $post->id)}}">{{$post->title}}</a></h2>
         
-        <h3><i>{{$post->post_type}}</i></h3>
+        <h3><i>{{ucfirst($post->post_type)}}</i></h3>
 
         
 
@@ -51,4 +51,5 @@
     @endforelse
     </li>
 </ul>
+{{$posts->links()}}
 @endsection

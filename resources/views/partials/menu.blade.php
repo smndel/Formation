@@ -23,10 +23,11 @@
           </a>
         </li> 
 
-        @foreach($types as $id => $type)
+        @forelse($types as $id => $type)
           <li><a href="{{route('type', $type)}}">{{$type}}</a></li>
-        @endforeach
-          <li><a href="#">Contact</a></li>
+        @empty
+        @endforelse
+          <li><a href="{{route('contact')}}">Contact</a></li>
       </ul>
       
     </div><!-- /.navbar-collapse -->

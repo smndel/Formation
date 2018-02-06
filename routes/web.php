@@ -1,5 +1,6 @@
 <?php
-
+use App\Post;
+use Illuminate\Support\Facades\Input;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +14,7 @@
 
 
 
-
-
-//PAge d'accueil
+//Page d'accueil
 Route::get('/', 'Frontcontroller@index')->name('home');
 
 //Route pour l'affichage d'une formation/stage
@@ -24,5 +23,16 @@ Route::get('post/{id}', 'FrontController@show')->name('show');
 //Route pour les categories
 Route::get('type/{type}', 'FrontController@showPostByType')->name('type');
 
-//Route pour la page Menu
-Route::get('type', 'FrontController@__construct');
+//Route pour la page contact
+Route::get('contact', 'ContactController@show')->name('contact');
+Route::post('contact',  'ContactController@mailToAdmin'); 
+
+
+
+//Route pour la barre de recherche:
+Route::post('/', function(){
+	$keyword = Input::get('keyword');
+	$postsSearch = Post::where('title', 'LIKE', '%'.$keyword.'%')->get();
+	print_r($postsSearch);
+	return view('front.index', ['postsSearch' => $postsSearch]);
+});

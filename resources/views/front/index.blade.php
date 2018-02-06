@@ -10,7 +10,7 @@
             <li class="list-group-item">
                 <h2><a href="{{route('show', $post->id)}}">{{$post->title}}</a></h2>
         
-                    <h3><i>{{$post->post_type}}</i></h3>
+                    <h3><i>{{ucfirst($post->post_type)}}</i></h3>
 
                     <h3>Catégorie : {{$post->category->name}}</h3>
 
@@ -42,13 +42,17 @@
                                     @endforeach
                                 </ul>
                         </div>
-            
-                        
                     </div>
             </li>
         @empty
         @endforelse       
         </ul>
+    @include('partials.menu')
+    </div>
+
+
+    <div class="col-md-4">
+    @include('partials.search') 
     </div>
 </div>
 @endsection
