@@ -1,8 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-
-        <h2><a href="#">{{$post->title}}</a></h2>
+<h1>FORMATIONS NUMERIQUES</h1>
+@include('partials.menu')
+        <h2>{{$post->title}}</h2>
         
         <h3><i>{{$post->post_type}}</i></h3>
 

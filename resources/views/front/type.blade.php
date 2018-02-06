@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>{{$genre->name}}</h1>
+<h1>{{$posts->post_type}}</h1>
 
 ul class="list-group">
     @forelse($posts as $post)

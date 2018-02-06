@@ -14,7 +14,7 @@
     <body>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
             
             </div>
         </div>
@@ -22,9 +22,11 @@
             <div class="col-md-12">
                 <!-- permet d'étendre le layout pour insérer une vue composite à l'intérieur -->
                 @yield('content')
+                
             </div>
         </div>
     </div>
     
     </body>
 </html>
+

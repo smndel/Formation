@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
+
+
 //PAge d'accueil
 Route::get('/', 'Frontcontroller@index')->name('home');
 
@@ -17,4 +22,7 @@ Route::get('/', 'Frontcontroller@index')->name('home');
 Route::get('post/{id}', 'FrontController@show')->name('show');
 
 //Route pour les categories
-Route::get('category/{id}', 'FrontController@showBookByCategory')->name('category');
+Route::get('type/{id}', 'FrontController@showPostByType')->name('type');
+
+//Route pour la page Menu
+Route::get('type', 'FrontController@__construct');
