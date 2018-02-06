@@ -1,16 +1,20 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>{{$posts->post_type}}</h1>
 
-ul class="list-group">
+<h1>{{strtoupper($type)}}</h1>
+
+@include('partials.menu')
+{{$posts->links()}}
+<ul class="list-group">
     @forelse($posts as $post)
-    <li class="list-group-item">
-        <h2><a href="#">{{$post->title}}</a></h2>
+        
+            <li class="list-group-item">
+                <h2><a href="#">{{$post->title}}</a></h2>
         
         <h3><i>{{$post->post_type}}</i></h3>
 
-        <h3>Catégorie : {{$post->category->name}}</h3>
+        
 
         <div class="row">
 

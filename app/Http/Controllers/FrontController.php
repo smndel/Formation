@@ -29,10 +29,9 @@ class FrontController extends Controller
     }
 
 
-  public function showPostByType(int $id){
-        $type = Post::find($id);
-        $posts = $type->paginate(5);//on récupère tout les livres d'un auteur
-        //Que nous passons à la vue
-        return view('front.type', ['posts' => $posts, 'type' => $type]);
+  public function showPostByType(string $type){
+        $posts = Post::select()->where('post_type', $type)->paginate(5);
+        $type = $type;
+        return view('front.type', ['posts' => $posts, 'type' =>$type]);
     }
 }

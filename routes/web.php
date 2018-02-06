@@ -22,7 +22,7 @@ Route::get('/', 'Frontcontroller@index')->name('home');
 Route::get('post/{id}', 'FrontController@show')->name('show');
 
 //Route pour les categories
-Route::get('type/{id}', 'FrontController@showPostByType')->name('type');
+Route::get('type/{type}', 'FrontController@showPostByType')->name('type');
 
 //Route pour la page Menu
 Route::get('type', 'FrontController@__construct');

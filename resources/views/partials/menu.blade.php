@@ -24,7 +24,7 @@
         </li> 
 
         @foreach($types as $id => $type)
-          <li><a href="{{route('type', $id)}}">{{$type}}</a></li>
+          <li><a href="{{route('type', $type)}}">{{$type}}</a></li>
         @endforeach
           <li><a href="#">Contact</a></li>
       </ul>
