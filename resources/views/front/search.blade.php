@@ -5,8 +5,9 @@
 <div class="row">
     <div class="col-md-8">
         @include('partials.menu')
+        
         @if(isset($details))
-        {{$details->links()}}
+            {{$details->appends(request()->only('q'))->links()}}
         <p> Le(s) résultat(s) de votre recherche sur "<b> {{ $query }} </b>" sont :</p>
         <ul class="list-group">
         @forelse($details as $post)
@@ -50,15 +51,14 @@
         @empty
         @endforelse 
         </ul>
-        {{$details->links()}}
+          {{$details->appends(request()->only('q'))->links()}}
         @else
-        <p>Aucun résultat ne correspond à votre recherche</p>
-        
+        <p>Aucun résultat ne correspond à votre recherche</p>     
         @endif 
     </div>
 
     <div class="col-md-4">
-        <form action="/search" method="POST" role="search">
+        <form action="{{route('search')}}" method="POST" role="search">
             {{ csrf_field() }}
             <div class="input-group">
                 <input type="text" class="form-control" name="q"

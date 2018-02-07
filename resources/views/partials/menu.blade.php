@@ -22,12 +22,13 @@
           <a href="{{route('index')}}">Accueil<span class="sr-only">(current)</span>
           </a>
         </li> 
-
+        @if(Route::is('post.*') == false)
         @forelse($types as $id => $type)
           <li><a href="{{route('type', $type)}}">{{$type}}</a></li>
         @empty
         @endforelse
           <li><a href="{{route('contact')}}">Contact</a></li>
+        @endif
       </ul>
 
     </div><!-- /.navbar-collapse -->
@@ -36,7 +37,7 @@
         {{-- renvoir true si vous êtes connecté --}}
         @if(Auth::check())
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Admin</a></li>
+          <li><a href="{{route('post.index')}}">Admin</a></li>
           <li> 
               <a href="{{route('logout') }}"
                   onclick="event.preventDefault();

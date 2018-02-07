@@ -1,6 +1,4 @@
 <?php
-use App\Post;
-use Illuminate\Support\Facades\Input;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +29,7 @@ Route::post('contact',  'ContactController@mailToAdmin');
 Route::any('/search', 'FrontController@search')->name('search');
 
 //routes sécurisées
-Route::resource('login', 'FormationController')->middleware('auth');
+Route::resource('admin/post', 'PostController')->middleware('auth');
 
 
 Auth::routes();

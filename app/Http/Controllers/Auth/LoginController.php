@@ -28,7 +28,7 @@ class LoginController extends Controller
     // protected $redirectTo = '/home';
     //Redirection un fois authentifié
     protected function redirectTo(){
-        return 'index';
+        return '/';
     }
 
 

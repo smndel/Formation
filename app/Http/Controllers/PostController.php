@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\post;
+use App\Category;
 
-class FormationController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,8 @@ class FormationController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::paginate(10);
+        return view('back.post.index', ['posts' => $posts]);
     }
 
     /**
