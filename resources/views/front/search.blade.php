@@ -1,12 +1,15 @@
 @extends('layouts.master')
 
 @section('content')
-<h1>FORMATIONS NUMERIQUES</h1>
+<h1>RECHERCHE</h1>
 <div class="row">
     <div class="col-md-8">
-    @include('partials.menu')
+        @include('partials.menu')
+        @if(isset($details))
+        {{$details->links()}}
+        <p> Le(s) résultat(s) de votre recherche sur "<b> {{ $query }} </b>" sont :</p>
         <ul class="list-group">
-        @forelse($posts as $post)
+        @forelse($details as $post)
             <li class="list-group-item">
                 <h2><a href="{{route('show', $post->id)}}">{{$post->title}}</a></h2>
         
@@ -45,11 +48,14 @@
                     </div>
             </li>
         @empty
-        @endforelse       
-        </ul>
-    @include('partials.menu')
-    </div>
+        @endforelse 
 
+        </ul>
+        @else
+        <p>Il n'y aaucun résultas à votre recherche</p>
+        
+        @endif 
+    </div>
 
     <div class="col-md-4">
         <form action="/search" method="POST" role="search">

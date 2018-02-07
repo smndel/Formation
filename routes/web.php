@@ -27,12 +27,5 @@ Route::get('type/{type}', 'FrontController@showPostByType')->name('type');
 Route::get('contact', 'ContactController@show')->name('contact');
 Route::post('contact',  'ContactController@mailToAdmin'); 
 
-
-
 //Route pour la barre de recherche:
-Route::post('/', function(){
-	$keyword = Input::get('keyword');
-	$postsSearch = Post::where('title', 'LIKE', '%'.$keyword.'%')->get();
-	print_r($postsSearch);
-	return view('front.index', ['postsSearch' => $postsSearch]);
-});
+Route::any('/search', 'FrontController@search')->name('search');
