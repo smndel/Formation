@@ -49,10 +49,10 @@
             </li>
         @empty
         @endforelse 
-
         </ul>
+        {{$details->links()}}
         @else
-        <p>Il n'y aaucun résultas à votre recherche</p>
+        <p>Aucun résultat ne correspond à votre recherche</p>
         
         @endif 
     </div>

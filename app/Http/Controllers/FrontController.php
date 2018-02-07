@@ -35,20 +35,13 @@ class FrontController extends Controller
         return view('front.type', ['posts' => $posts, 'type' =>$type]);
     }
 
-    // public function search(){
-    //     $keyword = Input::get('keyword');
-    //     $postsSearch = Post::where('title', 'LIKE', '%'.$keyword.'%')->get();
-    //     return view('front.search', ['postsSearch' => $postsSearch]);
-    // }
-
-
     public function search(){
         $q = Input::get ( 'q' );
         $posts = Post::where ( 'title', 'LIKE', '%' . $q . '%' )->orWhere('post_type', 'LIKE', '%' . $q . '%' )->orWhere('description', 'LIKE', '%' . $q . '%' )->paginate(5);
         if (count ( $posts ) > 0)
             return view ( 'front.search' )->withDetails($posts)->withQuery( $q );
-    else
-        return view ('front.search' )->withMessage('No Details found. Try to search again !' );
+        else
+            return view ('front.search' )->withMessage('No Details found. Try to search again !' );
     }
 
 

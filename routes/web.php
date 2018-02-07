@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Input;
 
 
 //Page d'accueil
-Route::get('/', 'Frontcontroller@index')->name('home');
+Route::get('/', 'Frontcontroller@index')->name('index');
 
 //Route pour l'affichage d'une formation/stage
 Route::get('post/{id}', 'FrontController@show')->name('show');
@@ -29,3 +29,11 @@ Route::post('contact',  'ContactController@mailToAdmin');
 
 //Route pour la barre de recherche:
 Route::any('/search', 'FrontController@search')->name('search');
+
+//routes sécurisées
+Route::resource('login', 'FormationController')->middleware('auth');
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -19,7 +19,7 @@
      
       <ul class="nav navbar-nav">
         <li class="active">
-          <a href="{{route('home')}}">Accueil<span class="sr-only">(current)</span>
+          <a href="{{route('index')}}">Accueil<span class="sr-only">(current)</span>
           </a>
         </li> 
 
@@ -29,7 +29,28 @@
         @endforelse
           <li><a href="{{route('contact')}}">Contact</a></li>
       </ul>
-      
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
+
+        {{-- renvoir true si vous êtes connecté --}}
+        @if(Auth::check())
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Admin</a></li>
+          <li> 
+              <a href="{{route('logout') }}"
+                  onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+                  Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  {{ csrf_field() }}
+              </form>
+          </li>
+        </ul> 
+        @endif
+      
+
+
+  
 </nav>
