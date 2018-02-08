@@ -5,12 +5,12 @@
 @include('partials.menu')
 
 <div class='row' style='margin-left: auto;'>
-<a href="#"><button>Ajouter un Post</button></a>
+<a href="{{route('post.create')}}"><button>Ajouter un Post</button></a>
 </div>
 
 {{$posts->links()}}
 
-
+@include('back.post.partials.flash')
 
 <table class="table table-striped">
   <thead>
@@ -20,8 +20,9 @@
       <th scope="col">Category</th>
       <th scope="col">Start</th>
       <th scope="col">End</th>
-      <th scope="col">Status</th>
+      <th scope="col">Price</th>
       <th scope="col">Teacher(s)</th>
+      <th scope="col">Status</th>
       <th scope="col">Show</th>
       <th scope="col">Editer</th>
       <th scope="col">Delete</th>
@@ -36,10 +37,24 @@
 
       <td>{{$post->post_type}}</td>
       
+      @if(isset($post->category->name))
       <td>{{$post->category->name}}</td>
+      @else
+      <td>No category</td>
+      @endif
 
       <td>{{$post->started_at}}</td>
+      
       <td>{{$post->ended_at}}</td>
+
+      <td>{{$post->price}}</td>
+           
+      <td>
+      @forelse($post->teachers as $teacher)
+      {{$teacher->name}}
+      @empty
+      @endforelse
+      </td>
       
       @if($post->status== 'published')
       <td style="color:green">
@@ -50,16 +65,9 @@
       {{$post->status}}
       </td>
       @endif
-      
-      <td>
-      @forelse($post->teachers as $teacher)
-      {{$teacher->name}}
-      @empty
-      @endforelse
-      </td>
 
-      <td><a href="#">voir</a></td>
-      <td><a href="#">Editer</a></td>
+      <td><a href="{{route('post.show', $post->id)}}">voir</a></td>
+      <td><a href="{{route('post.edit', $post->id)}}">Editer</a></td>
       <td>
         DELETE
       </td>
@@ -71,7 +79,6 @@
 </table>
 {{$posts->links()}}
 
-<!-- Pour affichage du message de confirmation de suppression d'un livre -->
 @section('scripts')
     @parent
     <script src="{{asset('js/confirm.js')}}"></script>

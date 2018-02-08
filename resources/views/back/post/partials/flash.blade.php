@@ -2,4 +2,4 @@
 <div class="alert">
     <p>{{Session::get('message')}}</p>
 </div>
-@endif        
+@endif   
