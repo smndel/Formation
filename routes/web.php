@@ -26,7 +26,7 @@ Route::get('contact', 'ContactController@show')->name('contact');
 Route::post('contact',  'ContactController@mailToAdmin'); 
 
 //Route pour la barre de recherche:
-Route::any('/search', 'FrontController@search')->name('search');
+Route::any('search', 'FrontController@search')->name('search');
 
 //routes sécurisées
 Route::resource('admin/post', 'PostController')->middleware('auth');

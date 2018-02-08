@@ -2,17 +2,17 @@
 
 @section('content')
 
-<h1>Edit Book :</h1>
-<form action="{{route('book.update', $book)}}" method="post" enctype="multipart/form-data">
+<h1>Edit Post:</h1>
+<form action="{{route('post.update', $post)}}" method="post" enctype="multipart/form-data">
+    <!-- Token de sécurité : -->
     {{method_field('PUT')}}
     {{csrf_field()}}
-
 
 <div class="col-md-6">
 
     <div class="form-group">
     <label for="title">Titre :</label>
-      <input type="text" class="form-control" id="title" name="title" value="{{$book->title}}">
+      <input type="text" class="form-control" placeholder="Titre du livre" id="title" name="title" value="{{$post->title}}">
       @if($errors->has('title'))
       <span class="error" style="color : red;">
         {{$errors->first('title')}}
@@ -20,11 +20,9 @@
       @endif
     </div>
 
-
-
     <div class="form-group">
     <label for="description">Description :</label>
-      <textarea type="textarea" class="form-control" id="description" name="description" value="{{$book->description}}">{{$book->description}}</textarea>
+      <textarea type="textarea" class="form-control" id="description" name="description">{{$post->description}}</textarea>
       @if($errors->has('description'))
       <span class="error" style="color : red;">
         {{$errors->first('description')}}
@@ -32,43 +30,98 @@
       @endif
     </div>
 
+    <div class="input-radio">
+        <label for="post_type">Type : </label><br>
+        <input 
+        type="radio" 
+        @if(old('status')=='stage') checked @endif 
+        name="post_type" 
+        value="stage" 
+        checked> Stage <br>    
+        <input 
+        type="radio" 
+        @if(old('status')=='formation') checked @endif 
+        name="post_type" value="formation"> Formation<br>
+    </div></br>
+    
     <div class="form-group">
-    <label for="exampleFormControlSelect1">Genre :</label>
-    <select class="form-control" id="genre_id" name="genre_id">    
-        
-        <option value="0">No Genre</option>
-        @forelse($genres as $id => $genre)  
-        <option value="{{$id}}"
-            @if(($id)==$book->genre_id)) selected='selected' @endif
-        >{{$genre}}</option>
-        @empty
-        @endforelse
-    </select>
+        <label for="category">Catégorie :</label>
+        <select class="form-control" id="category_id" name="category_id">     
+            <option value="0">No Category</option>
+            @forelse($categories as $id => $category)  
+            <option value="{{$id}}" 
+            @if((($id)==$post->category_id)) selected='selected' @endif>{{$category}}</option>
+            @empty
+            @endforelse
+        </select>
     </div>
 
-<h2>Choisissez un/des auteurs :</h2>
+<h2>Choisissez un/des intervenant(s) :</h2>
 
         <div class="form-group">
-        @forelse($authors as $id =>$name)
-        <label class="control-label"></label>
-        <input 
-        name="authors[]" 
-        type="checkbox" 
-        value="{{$id}}" 
-        id="author{{$id}}" 
-        @forelse($book->authors as $author)
-        @if(($id) == $author->id) checked @endif
-        @empty 
-        @endforelse
-        >{{$name}}
-        @empty
-        @endforelse
-        </div>
+        @forelse($teachers as $id =>$name)
+            <label class="control-label" ></label>
+            <input 
+            name="teachers[]" 
+            type="checkbox" 
+            value="{{$id}}" 
+            id="teacher{{$id}}" 
+            @forelse($post->teachers as $teacher)
+            @if(($id) == $teacher->id) checked @endif
+            @empty 
+            @endforelse
+            >{{$name}}
+            @empty
+            @endforelse
+        </div>      
 </div>
 
 <div class="col-md-6">
 
-<button type="submit" class="col-md-6">Editer un livre</button></br>
+    <div class="form-group">
+        <button type="submit" class="col-md-6">Editer un Post</button>
+    </div><br>
+        
+    <div class="form-group">
+        <label for="started_at">Début :</label>
+        <input type="datetime-local" name="started_at" value="{{$post->started_at}}">
+        @if($errors->has('started_at'))
+        <span class="error" style="color : red;">
+        {{$errors->first('started_at')}}
+        </span>
+        @endif
+    </div>
+
+    <div class="form-group">
+        <label for="ended_at">Fin :</label>
+        <input type="datetime-local" name="ended_at" value="{{$post->ended_at}}">
+        @if($errors->has('ended_at'))
+        <span class="error" style="color : red;">
+        {{$errors->first('ended_at')}}
+      </span>
+      @endif
+    </div>    
+
+
+    <div class="form-group">
+        <label for="student_max">Nombre d'étudiants maximum : </label>
+        <input type="number" name="student_max" id="student_max" min="1" max="50" value="{{$post->student_max}}">
+        @if($errors->has('student_max'))
+        <span class="error" style="color : red;">
+        {{$errors->first('student_max')}}
+      </span>
+      @endif
+    </div>
+    
+    <div class="form-group">
+        <label for="price">Prix : </label>
+        <input type="number" name="price" id="price" min="1" max="2500" value="{{$post->price}}">T.T.C
+        @if($errors->has('price'))
+        <span class="error" style="color : red;">
+        {{$errors->first('price')}}
+      </span>
+      @endif
+    </div>
         
     <div class="input-radio">
         <h2>Status</h2>
@@ -81,18 +134,18 @@
         <input 
         type="radio" 
         @if(old('status')=='unpublished') checked @endif 
-        name="status" value="unpublished"> dépublier<br>
+        name="status" value="unpublished">dépublier<br>
     </div>
 
-    <div class="col-md-12">
-    <h2>File</h2>
-    <input type="file" name="picture">
-    @if(count($book->picture)>0)
-    <img src="{{url('images', $book->picture->link)}}">
+    <div class="form-group">
+        <h2>File</h2>
+        <input type="file" name="picture">
+        @if(count($post->picture)>0)
+        <img src="{{url('images', $post->picture->link)}}">
         @if($errors->has('picture'))
-      <span class="error" style="color : red;">
+        <span class="error" style="color : red;">
         {{$errors->first('picture')}}
-      </span>
+        </span>
         @endif
     @endif
     </div>

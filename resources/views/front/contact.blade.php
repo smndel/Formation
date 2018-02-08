@@ -9,7 +9,7 @@
 	</div>
 	@endif
 	
-	<div class="col-12 col-md-12">
+	<div class="col-12 col-md-8">
 		<form class="form-horizontal" method="POST" action="/contact">
 			{{ csrf_field() }} 
 			<div class="form-group">

@@ -21,21 +21,24 @@ class FrontController extends Controller
         return view('front.index', ['posts' => $posts]);
     }
 
-
     public function show(int $id){
 
         $post = Post::find($id);
         return view('front.show', ['post' => $post]);
     }
 
-
     public function showPostByType(string $type){
+
         $posts = Post::select()->where('post_type', $type)->paginate(5);
         $type = $type;
         return view('front.type', ['posts' => $posts, 'type' =>$type]);
     }
 
     public function search(Request $request){
+
+        $this->validate($request, [
+        'q' => "required",
+        ]);
 
         $q = $request->q;
 
