@@ -69,7 +69,11 @@
       <td><a href="{{route('post.show', $post->id)}}">voir</a></td>
       <td><a href="{{route('post.edit', $post->id)}}">Editer</a></td>
       <td>
-        DELETE
+        <form class="delete" action="{{route('post.destroy', $post->id)}}" method="POST">
+          <input type="hidden" name="_method" value="DELETE">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+          <input type="submit" value="Delete" style="background-color: #B35935; color: white;">
+        </form>
       </td>
     </tr>
     @empty

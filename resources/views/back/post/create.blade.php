@@ -139,9 +139,10 @@
     </div>
 
 </div>
-
 </form>
-  
-
+@section('scripts')
+    @parent
+    <script src="{{asset('js/confirm.js')}}"></script>  
+@endsection
 
 @endsection
