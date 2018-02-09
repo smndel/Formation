@@ -3,7 +3,10 @@
 @section('content')
 
 <h1>Create Post:</h1>
+<<<<<<< HEAD
 @include('partials.menu')
+=======
+>>>>>>> Dev
 <form action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
     <!-- Token de sécurité : -->
     {{csrf_field()}}
@@ -111,7 +114,11 @@
     
     <div class="form-group">
         <label for="price">Prix : </label>
+<<<<<<< HEAD
         <input type="number" name="price" id="price" min="1" max="2500" value="{{old('price')}}" step="any">T.T.C
+=======
+        <input type="number" name="price" id="price" min="1" max="2500" value="{{old('price')}}">T.T.C
+>>>>>>> Dev
         @if($errors->has('price'))
         <span class="error" style="color : red;">
         {{$errors->first('price')}}

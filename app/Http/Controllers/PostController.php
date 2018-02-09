@@ -43,7 +43,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> Dev
         $this->validate($request,
         [
             'title' => 'required',
@@ -56,7 +59,11 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
+<<<<<<< HEAD
             'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+=======
+            'price' => 'required|integer',
+>>>>>>> Dev
             'student_max' => 'required|integer',
         ]);
 
@@ -116,6 +123,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+<<<<<<< HEAD
         if(!($request['started_at'])AND(!($request['ended_at']))){
 
             unset($request['ended_at']);
@@ -124,6 +132,13 @@ class PostController extends Controller
             $this->validate($request,
             [
             'title' => 'required',
+=======
+        $this->validate($request,
+        [
+            'title' => 'required',
+            'started_at' => 'required|date|after:tomorrow',
+            'ended_at' => 'required|date|after:started_at',
+>>>>>>> Dev
             'description' => 'required',
             'post_type' => 'required|in:formation,stage',
             'category_id' => 'required|integer',
@@ -131,6 +146,7 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
+<<<<<<< HEAD
             'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'student_max' => 'required|integer',
             ]);
@@ -211,6 +227,31 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('message', 'success');
 
         }
+=======
+            'price' => 'required|integer',
+            'student_max' => 'required|integer',
+        ]);
+
+        $post = Post::find($id); 
+        $post->update($request->all()); 
+        $post->teachers()->sync($request->teachers); 
+    
+    $image = $request->file('picture');    
+
+    if(!empty($image)){
+        if(count($post->picture)>0){
+            Storage::disk('local')->delete($post->picture->link);
+            $post->picture()->delete();
+        }
+
+        $link = $request->file('picture')->store('./');
+        $post->picture()->create(['link' => $link]);
+    }
+       
+        return redirect()->route('post.index')->with('message', 'success');
+
+    }
+>>>>>>> Dev
     /**
      * Remove the specified resource from storage.
      *
