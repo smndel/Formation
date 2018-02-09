@@ -3,10 +3,9 @@
 @section('content')
 
 <h1>Edit Post:</h1>
-<<<<<<< HEAD
+
 @include('partials.menu')
-=======
->>>>>>> Dev
+
 <form action="{{route('post.update', $post)}}" method="post" enctype="multipart/form-data">
     <!-- Token de sécurité : -->
     {{method_field('PUT')}}
@@ -38,21 +37,13 @@
         <label for="post_type">Type : </label><br>
         <input 
         type="radio" 
-<<<<<<< HEAD
         @if($post->post_type =='stage') checked @endif 
-=======
-        @if(old('status')=='stage') checked @endif 
->>>>>>> Dev
         name="post_type" 
         value="stage" 
         checked> Stage <br>    
         <input 
         type="radio" 
-<<<<<<< HEAD
         @if($post->post_type =='formation') checked @endif 
-=======
-        @if(old('status')=='formation') checked @endif 
->>>>>>> Dev
         name="post_type" value="formation"> Formation<br>
     </div></br>
     
@@ -68,16 +59,10 @@
         </select>
     </div>
 
-<<<<<<< HEAD
-
 
         <div class="form-group">
         <label for="teachers">Choisissez un/des intervenant(s) :</label>
-=======
-<h2>Choisissez un/des intervenant(s) :</h2>
-
         <div class="form-group">
->>>>>>> Dev
         @forelse($teachers as $id =>$name)
             <label class="control-label" ></label>
             <input 
@@ -92,7 +77,8 @@
             >{{$name}}
             @empty
             @endforelse
-        </div>      
+        </div> 
+        </div>     
 </div>
 
 <div class="col-md-6">
@@ -102,12 +88,8 @@
     </div><br>
         
     <div class="form-group">
-<<<<<<< HEAD
         <p>Date de début enregistré : {{$post->started_at}}</p>
         <label for="started_at">Nouvelle date de début :</label>
-=======
-        <label for="started_at">Début :</label>
->>>>>>> Dev
         <input type="datetime-local" name="started_at" value="{{$post->started_at}}">
         @if($errors->has('started_at'))
         <span class="error" style="color : red;">
@@ -117,12 +99,8 @@
     </div>
 
     <div class="form-group">
-<<<<<<< HEAD
         <p>Date de fin enregistré : {{$post->ended_at}}</p>
         <label for="ended_at">Nouvelle date de fin :</label>
-=======
-        <label for="ended_at">Fin :</label>
->>>>>>> Dev
         <input type="datetime-local" name="ended_at" value="{{$post->ended_at}}">
         @if($errors->has('ended_at'))
         <span class="error" style="color : red;">
@@ -144,11 +122,7 @@
     
     <div class="form-group">
         <label for="price">Prix : </label>
-<<<<<<< HEAD
         <input type="number" name="price" id="price" min="1" max="2500" value="{{$post->price}}" step="any">T.T.C
-=======
-        <input type="number" name="price" id="price" min="1" max="2500" value="{{$post->price}}">T.T.C
->>>>>>> Dev
         @if($errors->has('price'))
         <span class="error" style="color : red;">
         {{$errors->first('price')}}
@@ -166,20 +140,12 @@
         checked> publier<br>
         <input 
         type="radio" 
-<<<<<<< HEAD
         @if($post->status =='unpublished') checked @endif 
-=======
-        @if(old('status')=='unpublished') checked @endif 
->>>>>>> Dev
         name="status" value="unpublished">dépublier<br>
     </div>
 
     <div class="form-group">
-<<<<<<< HEAD
         <label for="file">File</label>
-=======
-        <h2>File</h2>
->>>>>>> Dev
         <input type="file" name="picture">
         @if(count($post->picture)>0)
         <img src="{{url('images', $post->picture->link)}}">

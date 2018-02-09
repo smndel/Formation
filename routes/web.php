@@ -31,6 +31,9 @@ Route::any('search', 'FrontController@search')->name('search');
 //routes sécurisées
 Route::resource('admin/post', 'PostController')->middleware('auth');
 
+//Route pour DeleteAll sur le dashboard Back:
+Route::delete('myproductsDeleteAll', 'Postcontroller@deleteAll')->name('deleteAll');
+
 
 Auth::routes();
 

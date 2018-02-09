@@ -18,6 +18,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(10);
+        
         return view('back.post.index', ['posts' => $posts]);
     }
 
@@ -43,10 +44,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-<<<<<<< HEAD
 
-=======
->>>>>>> Dev
         $this->validate($request,
         [
             'title' => 'required',
@@ -59,11 +57,8 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-<<<<<<< HEAD
             'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-=======
             'price' => 'required|integer',
->>>>>>> Dev
             'student_max' => 'required|integer',
         ]);
 
@@ -96,6 +91,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
+
         return view('back.post.show' ,['post' => $post]);
     }
 
@@ -123,7 +119,6 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< HEAD
         if(!($request['started_at'])AND(!($request['ended_at']))){
 
             unset($request['ended_at']);
@@ -131,24 +126,16 @@ class PostController extends Controller
 
             $this->validate($request,
             [
-            'title' => 'required',
-=======
-        $this->validate($request,
-        [
-            'title' => 'required',
-            'started_at' => 'required|date|after:tomorrow',
-            'ended_at' => 'required|date|after:started_at',
->>>>>>> Dev
-            'description' => 'required',
-            'post_type' => 'required|in:formation,stage',
-            'category_id' => 'required|integer',
-            'teachers' => 'array',
-            'teachers.*' => 'int',
-            'status' => 'in:published,unpublished',
-            'picture' => 'image|mimes:jpg,png,jpeg',
-<<<<<<< HEAD
-            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-            'student_max' => 'required|integer',
+                'title' => 'required',
+                'description' => 'required',
+                'post_type' => 'required|in:formation,stage',
+                'category_id' => 'required|integer',
+                'teachers' => 'array',
+                'teachers.*' => 'int',
+                'status' => 'in:published,unpublished',
+                'picture' => 'image|mimes:jpg,png,jpeg',
+                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+                'student_max' => 'required|integer',
             ]);
 
         }elseif(!($request['ended_at'])){
@@ -157,17 +144,17 @@ class PostController extends Controller
             
             $this->validate($request,
             [
-            'title' => 'required',
-            'description' => 'required',
-            'post_type' => 'required|in:formation,stage',
-            'category_id' => 'required|integer',
-            'teachers' => 'array',
-            'teachers.*' => 'int',
-            'status' => 'in:published,unpublished',
-            'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-            'student_max' => 'required|integer',
-            'started_at' => 'required|date|after:tomorrow',
+                'title' => 'required',
+                'description' => 'required',
+                'post_type' => 'required|in:formation,stage',
+                'category_id' => 'required|integer',
+                'teachers' => 'array',
+                'teachers.*' => 'int',
+                'status' => 'in:published,unpublished',
+                'picture' => 'image|mimes:jpg,png,jpeg',
+                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+                'student_max' => 'required|integer',
+                'started_at' => 'required|date|after:tomorrow',
             ]);
 
         }elseif(!($request['started_at'])){
@@ -176,35 +163,35 @@ class PostController extends Controller
             
             $this->validate($request,
             [
-            'title' => 'required',
-            'description' => 'required',
-            'post_type' => 'required|in:formation,stage',
-            'category_id' => 'required|integer',
-            'teachers' => 'array',
-            'teachers.*' => 'int',
-            'status' => 'in:published,unpublished',
-            'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-            'student_max' => 'required|integer',
-            'ended_at' => 'required|date|after:started_at',
+                'title' => 'required',
+                'description' => 'required',
+                'post_type' => 'required|in:formation,stage',
+                'category_id' => 'required|integer',
+                'teachers' => 'array',
+                'teachers.*' => 'int',
+                'status' => 'in:published,unpublished',
+                'picture' => 'image|mimes:jpg,png,jpeg',
+                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+                'student_max' => 'required|integer',
+                'ended_at' => 'required|date|after:started_at',
             ]);
 
         }else{
 
             $this->validate($request,
             [
-            'title' => 'required',
-            'description' => 'required',
-            'post_type' => 'required|in:formation,stage',
-            'category_id' => 'required|integer',
-            'teachers' => 'array',
-            'teachers.*' => 'int',
-            'status' => 'in:published,unpublished',
-            'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-            'student_max' => 'required|integer',
-            'started_at' => 'required|date|after:tomorrow',
-            'ended_at' => 'required|date|after:started_at',
+                'title' => 'required',
+                'description' => 'required',
+                'post_type' => 'required|in:formation,stage',
+                'category_id' => 'required|integer',
+                'teachers' => 'array',
+                'teachers.*' => 'int',
+                'status' => 'in:published,unpublished',
+                'picture' => 'image|mimes:jpg,png,jpeg',
+                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
+                'student_max' => 'required|integer',
+                'started_at' => 'required|date|after:tomorrow',
+                'ended_at' => 'required|date|after:started_at',
             ]);
         }
 
@@ -215,55 +202,37 @@ class PostController extends Controller
         $image = $request->file('picture');    
 
         if(!empty($image)){
-        if(count($post->picture)>0){
-            Storage::disk('local')->delete($post->picture->link);
-            $post->picture()->delete();
+            if(count($post->picture)>0){
+                Storage::disk('local')->delete($post->picture->link);
+                $post->picture()->delete();
         }
-
-        $link = $request->file('picture')->store('./');
-        $post->picture()->create(['link' => $link]);
+            $link = $request->file('picture')->store('./');
+            $post->picture()->create(['link' => $link]);
         }
        
         return redirect()->route('post.index')->with('message', 'success');
-
-        }
-=======
-            'price' => 'required|integer',
-            'student_max' => 'required|integer',
-        ]);
-
-        $post = Post::find($id); 
-        $post->update($request->all()); 
-        $post->teachers()->sync($request->teachers); 
-    
-    $image = $request->file('picture');    
-
-    if(!empty($image)){
-        if(count($post->picture)>0){
-            Storage::disk('local')->delete($post->picture->link);
-            $post->picture()->delete();
-        }
-
-        $link = $request->file('picture')->store('./');
-        $post->picture()->create(['link' => $link]);
     }
-       
-        return redirect()->route('post.index')->with('message', 'success');
 
-    }
->>>>>>> Dev
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
         $post = Post::find($id);
         $post->delete();
 
         return redirect()->route('post.index')->with('message', 'success');
+    }
 
+    public function deleteAll(Request $request)
+    {
+        $ids = $request->ids;
+        Post::whereIn('id',explode(",",$ids))->delete();
+
+        return response()->json(['success'=>"Products Deleted successfully."]);
     }
 }

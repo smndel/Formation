@@ -13,14 +13,17 @@ class Post extends Model
     ];
 
     public function category(){
+        
     	return $this->belongsTo(Category::class);
     }
 
     public function teachers(){
+
     	return $this->belongsToMany(Teacher::class);
     }
 
     public function picture(){
+
     	return $this->hasOne(Picture::class);
     }
 
@@ -38,14 +41,17 @@ class Post extends Model
     }
 
     public function getStartedAtAttribute($value){
+
         return Carbon::parse($value)->format('d-m-Y H:i');
     }
 
     public function getEndedAtAttribute($value){
+
         return Carbon::parse($value)->format('d-m-Y H:i');
     }
 
     public function scopePublished($query){
+
         return $query->where('status', 'published');
     }
 
