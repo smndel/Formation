@@ -3,6 +3,7 @@
 @section('content')
 
 <h1>Edit Post:</h1>
+@include('partials.menu')
 <form action="{{route('post.update', $post)}}" method="post" enctype="multipart/form-data">
     <!-- Token de sécurité : -->
     {{method_field('PUT')}}
@@ -56,9 +57,10 @@
         </select>
     </div>
 
-<h2>Choisissez un/des intervenant(s) :</h2>
+
 
         <div class="form-group">
+        <label for="teachers">Choisissez un/des intervenant(s) :</label>
         @forelse($teachers as $id =>$name)
             <label class="control-label" ></label>
             <input 
@@ -83,7 +85,8 @@
     </div><br>
         
     <div class="form-group">
-        <label for="started_at">Début :</label>
+        <p>Date de début enregistré : {{$post->started_at}}</p>
+        <label for="started_at">Nouvelle date de début :</label>
         <input type="datetime-local" name="started_at" value="{{$post->started_at}}">
         @if($errors->has('started_at'))
         <span class="error" style="color : red;">
@@ -93,7 +96,8 @@
     </div>
 
     <div class="form-group">
-        <label for="ended_at">Fin :</label>
+        <p>Date de fin enregistré : {{$post->ended_at}}</p>
+        <label for="ended_at">Nouvelle date de fin :</label>
         <input type="datetime-local" name="ended_at" value="{{$post->ended_at}}">
         @if($errors->has('ended_at'))
         <span class="error" style="color : red;">
@@ -124,7 +128,7 @@
     </div>
         
     <div class="input-radio">
-        <h2>Status</h2>
+        <label for='status'>Status</label>
         <input 
         type="radio" 
         @if(old('status')=='published') checked @endif 
@@ -138,7 +142,7 @@
     </div>
 
     <div class="form-group">
-        <h2>File</h2>
+        <label for="file">File</label>
         <input type="file" name="picture">
         @if(count($post->picture)>0)
         <img src="{{url('images', $post->picture->link)}}">

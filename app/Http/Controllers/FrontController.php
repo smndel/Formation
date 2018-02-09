@@ -17,7 +17,7 @@ class FrontController extends Controller
 
     public function index(){
 
-        $posts = Post::orderBy('started_at')->paginate(2);
+        $posts = Post::whereRaw('started_at >= now()')->orderBy('started_at')->take(2)->get();
         return view('front.index', ['posts' => $posts]);
     }
 

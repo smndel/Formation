@@ -3,6 +3,7 @@
 @section('content')
 
 <h1>Create Post:</h1>
+@include('partials.menu')
 <form action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
     <!-- Token de sécurité : -->
     {{csrf_field()}}

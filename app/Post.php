@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Post extends Model
 {
@@ -27,4 +28,38 @@ class Post extends Model
     // public function dateInterval($date1, $date2){
     // 	return $interval = $date1->diff($date2);
     // }
+
+    public function setCategoryIdAttribute($value){
+        if($value == 0){
+            $this->attributes['category_id']= null;
+        }else{
+            $this->attributes['category_id'] = $value;
+        }
+    }
+
+    public function getStartedAtAttribute($value){
+        return Carbon::parse($value)->format('d-m-Y H:i');
+    }
+
+    public function getEndedAtAttribute($value){
+        return Carbon::parse($value)->format('d-m-Y H:i');
+    }
+
+    // public function setStartedAtAttribute($value)
+    // {
+    //     if ( $value !== null & $value === '' )
+    //     {
+    //     $this->attributes['started_at'] = ($value);
+    //     }
+    // }
+
+    // public function setEndedAtAttribute($value)
+    // {
+    //     if ( $value !== null & $value === '' )
+    //     {
+    //     $this->attributes['ended_at'] = ($value);
+    //     }
+    // }
+
+
 }

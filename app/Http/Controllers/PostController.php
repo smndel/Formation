@@ -43,6 +43,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request,
         [
             'title' => 'required',
@@ -115,11 +116,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,
-        [
+        if(!($request['started_at'])AND(!($request['ended_at']))){
+
+            unset($request['ended_at']);
+            unset($request['started_at']);
+
+            $this->validate($request,
+            [
             'title' => 'required',
-            'started_at' => 'required|date|after:tomorrow',
-            'ended_at' => 'required|date|after:started_at',
             'description' => 'required',
             'post_type' => 'required|in:formation,stage',
             'category_id' => 'required|integer',
@@ -127,17 +131,74 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required|integer',
+            'price' => 'required',
             'student_max' => 'required|integer',
-        ]);
+            ]);
+
+        }elseif(!($request['ended_at'])){
+            
+            unset($request['ended_at']);
+            
+            $this->validate($request,
+            [
+            'title' => 'required',
+            'description' => 'required',
+            'post_type' => 'required|in:formation,stage',
+            'category_id' => 'required|integer',
+            'teachers' => 'array',
+            'teachers.*' => 'int',
+            'status' => 'in:published,unpublished',
+            'picture' => 'image|mimes:jpg,png,jpeg',
+            'price' => 'required',
+            'student_max' => 'required|integer',
+            'started_at' => 'required|date|after:tomorrow',
+            ]);
+
+        }elseif(!($request['started_at'])){
+            
+            unset($request['started_at']);
+            
+            $this->validate($request,
+            [
+            'title' => 'required',
+            'description' => 'required',
+            'post_type' => 'required|in:formation,stage',
+            'category_id' => 'required|integer',
+            'teachers' => 'array',
+            'teachers.*' => 'int',
+            'status' => 'in:published,unpublished',
+            'picture' => 'image|mimes:jpg,png,jpeg',
+            'price' => 'required',
+            'student_max' => 'required|integer',
+            'ended_at' => 'required|date|after:started_at',
+            ]);
+
+        }else{
+
+            $this->validate($request,
+            [
+            'title' => 'required',
+            'description' => 'required',
+            'post_type' => 'required|in:formation,stage',
+            'category_id' => 'required|integer',
+            'teachers' => 'array',
+            'teachers.*' => 'int',
+            'status' => 'in:published,unpublished',
+            'picture' => 'image|mimes:jpg,png,jpeg',
+            'price' => 'required',
+            'student_max' => 'required|integer',
+            'started_at' => 'required|date|after:tomorrow',
+            'ended_at' => 'required|date|after:started_at',
+            ]);
+        }
 
         $post = Post::find($id); 
         $post->update($request->all()); 
         $post->teachers()->sync($request->teachers); 
     
-    $image = $request->file('picture');    
+        $image = $request->file('picture');    
 
-    if(!empty($image)){
+        if(!empty($image)){
         if(count($post->picture)>0){
             Storage::disk('local')->delete($post->picture->link);
             $post->picture()->delete();
@@ -145,11 +206,11 @@ class PostController extends Controller
 
         $link = $request->file('picture')->store('./');
         $post->picture()->create(['link' => $link]);
-    }
+        }
        
         return redirect()->route('post.index')->with('message', 'success');
 
-    }
+        }
     /**
      * Remove the specified resource from storage.
      *
