@@ -45,6 +45,18 @@ class Post extends Model
         return Carbon::parse($value)->format('d-m-Y H:i');
     }
 
+    public function scopePublished($query){
+        return $query->where('status', 'published');
+    }
+
+    public function scopeSearch($query, $q)
+    {
+        return $query->where( 'title', 'LIKE', '%' . $q . '%' )
+                    ->orWhere('post_type', 'LIKE', '%' . $q . '%' )
+                    ->orWhere('description', 'LIKE', '%' . $q . '%' );
+    }
+
+
     // public function setStartedAtAttribute($value)
     // {
     //     if ( $value !== null & $value === '' )

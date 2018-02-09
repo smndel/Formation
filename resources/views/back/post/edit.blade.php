@@ -35,13 +35,13 @@
         <label for="post_type">Type : </label><br>
         <input 
         type="radio" 
-        @if(old('status')=='stage') checked @endif 
+        @if($post->post_type =='stage') checked @endif 
         name="post_type" 
         value="stage" 
         checked> Stage <br>    
         <input 
         type="radio" 
-        @if(old('status')=='formation') checked @endif 
+        @if($post->post_type =='formation') checked @endif 
         name="post_type" value="formation"> Formation<br>
     </div></br>
     
@@ -119,7 +119,7 @@
     
     <div class="form-group">
         <label for="price">Prix : </label>
-        <input type="number" name="price" id="price" min="1" max="2500" value="{{$post->price}}">T.T.C
+        <input type="number" name="price" id="price" min="1" max="2500" value="{{$post->price}}" step="any">T.T.C
         @if($errors->has('price'))
         <span class="error" style="color : red;">
         {{$errors->first('price')}}
@@ -131,13 +131,13 @@
         <label for='status'>Status</label>
         <input 
         type="radio" 
-        @if(old('status')=='published') checked @endif 
+        @if($post->status =='published') checked @endif 
         name="status" 
         value="published" 
         checked> publier<br>
         <input 
         type="radio" 
-        @if(old('status')=='unpublished') checked @endif 
+        @if($post->status =='unpublished') checked @endif 
         name="status" value="unpublished">dépublier<br>
     </div>
 

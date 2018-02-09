@@ -56,7 +56,7 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required|integer',
+            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'student_max' => 'required|integer',
         ]);
 
@@ -131,7 +131,7 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required',
+            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'student_max' => 'required|integer',
             ]);
 
@@ -149,7 +149,7 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required',
+            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'student_max' => 'required|integer',
             'started_at' => 'required|date|after:tomorrow',
             ]);
@@ -168,7 +168,7 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required',
+            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'student_max' => 'required|integer',
             'ended_at' => 'required|date|after:started_at',
             ]);
@@ -185,7 +185,7 @@ class PostController extends Controller
             'teachers.*' => 'int',
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required',
+            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
             'student_max' => 'required|integer',
             'started_at' => 'required|date|after:tomorrow',
             'ended_at' => 'required|date|after:started_at',
