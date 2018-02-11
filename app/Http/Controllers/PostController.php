@@ -8,6 +8,7 @@ use App\Category;
 use App\Teacher;
 use Carbon\Carbon;
 
+
 class PostController extends Controller
 {
     /**
@@ -18,9 +19,10 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(10);
-        
+
         return view('back.post.index', ['posts' => $posts]);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -58,7 +60,6 @@ class PostController extends Controller
             'status' => 'in:published,unpublished',
             'picture' => 'image|mimes:jpg,png,jpeg',
             'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-            'price' => 'required|integer',
             'student_max' => 'required|integer',
         ]);
 
@@ -234,5 +235,67 @@ class PostController extends Controller
         Post::whereIn('id',explode(",",$ids))->delete();
 
         return response()->json(['success'=>"Products Deleted successfully."]);
+    }
+
+    public function search(Request $request)
+    {
+       $q = $request->q; 
+
+       $posts = Post::search($q)->paginate(10);
+
+        if (count ( $posts ) > 0)
+
+            return view ('back.post.search' )->withDetails($posts)->withQuery( $q );
+        else
+
+            return view ('back.post.search' );
+    }
+
+
+    public function sort(Request $request)
+    {
+        switch ($request->title) {
+            case 'titleAsc':
+                $posts = Post::orderby('title', 'asc')->paginate(10);
+                break;
+            case 'titleDesc':
+                $posts = Post::orderby('title', 'desc')->paginate(10);
+                break;
+            case 'typeAsc':
+                $posts = Post::orderby('post_type', 'asc')->paginate(10);
+                break;
+            case 'typeDesc':
+                $posts = Post::orderby('post_type', 'desc')->paginate(10);
+                break;
+            case 'catAsc':
+                $posts = Post::orderby('category_id', 'asc')->paginate(10);
+                break;
+            case 'catDesc':
+                $posts = Post::orderby('category_id', 'desc')->paginate(10);
+                break;
+            case 'startAsc':
+                $posts = Post::orderby('started_at', 'asc')->paginate(10);
+                break;
+            case 'startDesc':
+                $posts = Post::orderby('started_at', 'desc')->paginate(10);
+                break;
+            case 'endAsc':
+                $posts = Post::orderby('ended_at', 'asc')->paginate(10);
+                break;
+            case 'endDesc':
+                $posts = Post::orderby('ended_at', 'desc')->paginate(10);
+                break;
+            case 'priceAsc':
+                $posts = Post::orderby('price', 'asc')->paginate(10);
+                return view('back.post.index', ['posts' => $posts]);
+                break;
+            case 'priceDesc':
+                $posts = Post::orderby('price', 'desc')->paginate(10);
+                return view('back.post.index', ['posts' => $posts]);
+                break;
+            default:
+                break;
+        }
+        return view('back.post.index', ['posts' => $posts]);    
     }
 }

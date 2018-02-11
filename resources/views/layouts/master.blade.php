@@ -28,7 +28,8 @@
     </div>
     @section('scripts')
     <script src="{{asset('js/app.js')}}"></script>
-    @show
+    @show 
+
     </body>
 </html>
 

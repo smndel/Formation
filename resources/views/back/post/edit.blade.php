@@ -15,7 +15,7 @@
 
     <div class="form-group">
     <label for="title">Titre :</label>
-      <input type="text" class="form-control" placeholder="Titre du livre" id="title" name="title" value="{{$post->title}}">
+      <input type="text" class="form-control" id="title" name="title" value="{{$post->title}}">
       @if($errors->has('title'))
       <span class="error" style="color : red;">
         {{$errors->first('title')}}
@@ -136,12 +136,14 @@
         type="radio" 
         @if($post->status =='published') checked @endif 
         name="status" 
-        value="published" 
-        checked> publier<br>
+        value="published"> 
+        publier<br>
         <input 
         type="radio" 
         @if($post->status =='unpublished') checked @endif 
-        name="status" value="unpublished">dépublier<br>
+        name="status" 
+        value="unpublished">
+        dépublier<br>
     </div>
 
     <div class="form-group">

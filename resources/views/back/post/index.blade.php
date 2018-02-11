@@ -1,42 +1,116 @@
 @extends('layouts.master')
 
 @section('content')
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-confirmation/1.0.5/bootstrap-confirmation.min.js"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-
 
 <h1>Admin</h1>
-@include('partials.menu')
+  @include('partials.menu')
 
-<div class='row' style='margin-left: auto;'>
-<a href="{{route('post.create')}}"><button>Ajouter un Post</button></a>
-</div>
+  <div class='row'>
+    <div class="col-md-6">
+        <a href="{{route('post.create')}}"><button style="height: 50px;">Ajouter un Post</button></a>
+    </div>
+    @include('partials.searchbarback')
+        @if($errors->has('q'))<span class="error" style="color : red;">{{$errors->first('q')}}</span>@endif
 
-{{$posts->links()}}
-<button style="margin-bottom: 10px; float:right;" class="btn btn-primary delete_all" data-url="{{ route('deleteAll')}}">Delete All Selected</button>
+  </div>
+
+
+  <div class='row'>
+  <button class="btn btn-primary delete_all" data-url="{{ route('deleteAll')}}">Delete All Selected</button>
+
+
 
 @include('back.post.partials.flash')
-
+{{$posts->appends(request()->only('title'))->links()}}
+</div>
 <table class="table table-striped">
   <thead>
+    <form action="{{route('post.sort')}}" method="post">
+      {{csrf_field()}}
     <tr>
       <th width="50px"><input type="checkbox" id="master"></th>
-      <th scope="col">Title</th>
-      <th scope="col">Type</th>
-      <th scope="col">Category</th>
-      <th scope="col">Start</th>
-      <th scope="col">End</th>
-      <th scope="col">Price</th>
-      <th scope="col">Teacher(s)</th>
+
+      <th scope="col">Title       
+        <div class="input-group">
+                <button type="submit form-control" name="title" value="titleAsc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    </span>
+                </button>
+                <button type="submit form-control" name="title" value="titleDesc">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+                    </span>
+                </button>
+        </div>
+      </th>
+
+      <th scope="col">Type
+        <div class="input-group">
+                <button type="submit form-control" name="title" value="typeAsc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    </span>
+                </button>
+                <button type="submit form-control" name="title" value="typeDesc">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+                    </span>
+                </button>
+        </div>
+      </th>
+
+      <th scope="col">Category
+        <div class="input-group">
+                <button type="submit form-control" name="title" value="catAsc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    </span>
+                </button>
+                <button type="submit form-control" name="title" value="catDesc">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+                    </span>
+                </button>
+        </div>
+      </th>
+
+      <th scope="col">Start
+        <div class="input-group">
+                <button type="submit form-control" name="title" value="startAsc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    </span>
+                </button>
+                <button type="submit form-control" name="title" value="startDesc">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+                    </span>
+                </button>
+        </div>
+      </th>
+      <th scope="col">End
+        <div class="input-group">
+                <button type="submit form-control" name="title" value="endAsc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    </span>
+                </button>
+                <button type="submit form-control" name="title" value="endDesc">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+                    </span>
+                </button>
+        </div>
+      </th>
+      <th scope="col">Price
+        <div class="input-group">
+                <button type="submit form-control" name="title" value="priceAsc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    </span>
+                </button>
+                <button type="submit form-control" name="title" value="priceDesc">
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
+                    </span>
+                </button>
+        </div>
+      </th>
       <th scope="col">Status</th>
       <th scope="col">Show</th>
       <th scope="col">Editer</th>
       <th scope="col">Delete</th>
     </tr>
+    </form>
   </thead>
   <tbody>
 
@@ -60,13 +134,6 @@
 
       <td>{{$post->price}}</td>
            
-      <td>
-      @forelse($post->teachers as $teacher)
-      {{$teacher->name}}
-      @empty
-      @endforelse
-      </td>
-      
       @if($post->status== 'published')
       <td style="color:green">
       {{$post->status}}
@@ -90,9 +157,10 @@
     @empty
     @endforelse
 
+
   </tbody>
 </table>
-{{$posts->links()}}
+{{$posts->appends(request()->only('title'))->links()}}
 
 @section('scripts')
     @parent
@@ -102,5 +170,5 @@
     @parent
     <script src="{{asset('js/deleteAll.js')}}"></script>
 @endsection
-
+  
 @endsection

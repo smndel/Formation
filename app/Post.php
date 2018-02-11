@@ -5,9 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+
 class Post extends Model
 {
-
     protected $fillable = [
         'title', 'description','started_at','ended_at', 'post_type', 'status', 'price', 'student_max','category_id', 
     ];
@@ -61,23 +61,5 @@ class Post extends Model
                     ->orWhere('post_type', 'LIKE', '%' . $q . '%' )
                     ->orWhere('description', 'LIKE', '%' . $q . '%' );
     }
-
-
-    // public function setStartedAtAttribute($value)
-    // {
-    //     if ( $value !== null & $value === '' )
-    //     {
-    //     $this->attributes['started_at'] = ($value);
-    //     }
-    // }
-
-    // public function setEndedAtAttribute($value)
-    // {
-    //     if ( $value !== null & $value === '' )
-    //     {
-    //     $this->attributes['ended_at'] = ($value);
-    //     }
-    // }
-
 
 }

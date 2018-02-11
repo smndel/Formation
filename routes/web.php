@@ -28,11 +28,16 @@ Route::post('contact',  'ContactController@mailToAdmin');
 //Route pour la barre de recherche:
 Route::any('search', 'FrontController@search')->name('search');
 
+Route::any('searchback', 'PostController@search')->name('post.search');
+
 //routes sécurisées
 Route::resource('admin/post', 'PostController')->middleware('auth');
 
 //Route pour DeleteAll sur le dashboard Back:
 Route::delete('myproductsDeleteAll', 'Postcontroller@deleteAll')->name('deleteAll');
+
+
+Route::any('sort', 'PostController@sort')->name('post.sort');
 
 
 Auth::routes();
