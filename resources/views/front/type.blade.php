@@ -2,10 +2,13 @@
 
 @section('content')
 
+
+
 <h1>{{strtoupper($type)}}</h1>
 
 @include('partials.menu')
 {{$posts->links()}}
+
 <ul class="list-group">
     @forelse($posts as $post)
         
@@ -13,8 +16,6 @@
                 <h2><a href="{{route('show', $post->id)}}">{{$post->title}}</a></h2>
         
         <h3><i>{{ucfirst($post->post_type)}}</i></h3>
-
-        
 
         <div class="row">
 

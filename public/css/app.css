@@ -8350,3 +8350,17 @@ button.close {
   }
 }
 
+.btn.btn-danger.btn-md.delete_all {
+  vertical-align: bottom;
+  margin: 10px;
+}
+
+.btn.btn-primary.delete_all {
+  vertical-align: bottom;
+  margin: 10px 10px 10px 15px;
+}
+
+.searchbarback {
+  padding-right: 0;
+}
+

@@ -24,7 +24,7 @@ class FrontController extends Controller
 
     public function show(int $id){
 
-        $post = Post::find($id)->published();
+        $post = Post::find($id);
 
         return view('front.show', ['post' => $post]);
     }
