@@ -34,7 +34,7 @@ class Post extends Model
 
     public function setCategoryIdAttribute($value){
         if($value == 0){
-            $this->attributes['category_id']= null;
+            $this->attributes['category_id'] = null;
         }else{
             $this->attributes['category_id'] = $value;
         }
@@ -62,53 +62,23 @@ class Post extends Model
                     ->orWhere('description', 'LIKE', '%' . $q . '%' );
     }
 
-    public function scopeSortBack($query, $title)
-    {
-        switch ($title) {
-            case 'titleAsc':
-                return $query->orderby('title', 'asc')->paginate(10);
-                break;
-            case 'titleDesc':
-                return $query->orderby('title', 'desc')->paginate(10);
-                break;
-            case 'typeAsc':
-                return $query->orderby('post_type', 'asc')->paginate(10);
-                break;
-            case 'typeDesc':
-                return $query->orderby('post_type', 'desc')->paginate(10);
-                break;
-            case 'catAsc':
-                return $query->orderby('category_id', 'asc')->paginate(10);
-                break;
-            case 'catDesc':
-                return $query->orderby('category_id', 'desc')->paginate(10);
-                break;
-            case 'startAsc':
-                return $query->orderby('started_at', 'asc')->paginate(10);
-                break;
-            case 'startDesc':
-                return $query->orderby('started_at', 'desc')->paginate(10);
-                break;
-            case 'endAsc':
-                return $query->orderby('ended_at', 'asc')->paginate(10);
-                break;
-            case 'endDesc':
-                return $query->orderby('ended_at', 'desc')->paginate(10);
-                break;
-            case 'priceAsc':
-                return $query->orderby('price', 'asc')->paginate(10);
-                break;
-            case 'priceDesc':
-                return $query->orderby('price', 'desc')->paginate(10);
-                break;
-            case 'StatusAsc':
-                return $query->orderby('status', 'asc')->paginate(10);
-                break;
-            case 'StatusDesc':
-                return $query->orderby('status', 'desc')->paginate(10);
-                break;
-            default:
-                break;
-        }
+    // Ajax method 
+    // public function scopeOrderSens($query, $sens = 'DESC')
+    // {
+
+    //     return $query->orderby('title', $sens); // dès que Eloquent retourne une erreur => erreur 500
+    // }
+
+    public function scopeSortBack($query, $title){
+
+        $titleTab = explode('.', $title);
+
+        $champ = $titleTab[0];
+        $sens = $titleTab[1];
+
+        return $query->orderby($champ,$sens)->paginate(10); 
+
     }
+
+    
 }

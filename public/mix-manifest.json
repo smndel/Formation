@@ -1,6 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/sortArray.js": "/js/sortArray.js",
     "/js/deleteAll.js": "/js/deleteAll.js",
-    "/js/confirm.js": "/js/confirm.js"
+    "/js/confirm.js": "/js/confirm.js",
+    "/js/bootstrap-datetimepicker.min.js": "/js/bootstrap-datetimepicker.min.js"
 }

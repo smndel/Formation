@@ -19,7 +19,7 @@
     </div>
     
     <div class="col-md-offset-4 col-md-2">
-        <a href="{{route('post.create')}}"><button class="btn btn-primary delete_all" >Ajouter un Post</button></a>
+        <a href="{{route('post.create')}}"><button class="btn btn-primary create" >Ajouter un Post</button></a>
     </div>
 
     <div class='col-md-2'>
@@ -33,16 +33,19 @@
     <thead>
    
     <tr>
-      <th><input type="checkbox" id="master"></th>
-       <form action="{{route('post.sort')}}" method="post" class="formsort">
-      {{csrf_field()}}
-      <th scope="col"><a href="{{route('post.index')}}">Title</a>       
+      <th>
+        <input type="checkbox" id="master">
+      </th>
+       <form action="{{route('post.sort')}}" method="post">
+        {{csrf_field()}}
+
+      <th scope="col"><a href="{{route('post.index')}}">Title</a>
         <div class="input-group">
-                <button type="submit form-control" name="title" value="titleAsc">
-                    <span  class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                <button type="submit form-control" name="title" value="title.asc">
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="titleDesc">
+                <button type="submit form-control" name="title" value="title.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -51,11 +54,11 @@
 
       <th scope="col"><a href="{{route('post.index')}}">Type</a>
         <div class="input-group">
-                <button type="submit form-control" name="title" value="typeAsc">
+                <button type="submit form-control" name="title" value="post_type.asc">
                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="typeDesc">
+                <button type="submit form-control" name="title" value="post_type.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -64,11 +67,11 @@
 
       <th scope="col"><a href="{{route('post.index')}}">Category</a>
         <div class="input-group">
-                <button type="submit form-control" name="title" value="catAsc">
+                <button type="submit form-control" name="title" value="category_id.asc">
                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="catDesc">
+                <button type="submit form-control" name="title" value="category_id.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -77,11 +80,11 @@
 
       <th scope="col"><a href="{{route('post.index')}}">Start</a>
         <div class="input-group">
-                <button type="submit form-control" name="title" value="startAsc">
+                <button type="submit form-control" name="title" value="started_at.asc">
                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="startDesc">
+                <button type="submit form-control" name="title" value="started_at.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -89,11 +92,11 @@
       </th>
       <th scope="col"><a href="{{route('post.index')}}">End</a>
         <div class="input-group">
-                <button type="submit form-control" name="title" value="endAsc">
+                <button type="submit form-control" name="title" value="ended_at.asc">
                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="endDesc">
+                <button type="submit form-control" name="title" value="ended_at.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -101,11 +104,11 @@
       </th>
       <th scope="col"><a href="{{route('post.index')}}">Price</a>
         <div class="input-group">
-                <button type="submit form-control" name="title" value="priceAsc">
+                <button type="submit form-control" name="title" value="price.asc">
                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="priceDesc">
+                <button type="submit form-control" name="title" value="price.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -113,11 +116,11 @@
       </th>
       <th scope="col"><a href="{{route('post.index')}}">Status</a>
          <div class="input-group">
-                <button type="submit form-control" name="title" value="StatusAsc">
+                <button type="submit form-control" name="title" value="status.asc">
                     <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
-                <button type="submit form-control" name="title" value="StatusDesc">
+                <button type="submit form-control" name="title" value="status.desc">
                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true">
                     </span>
                 </button>
@@ -136,6 +139,7 @@
     @forelse($posts as $post)
     <tr>
       <td><input type="checkbox" class="sub_chk" data-id="{{$post->id}}"></td>
+
       <td>{{$post->title}}</td>
 
       <td>{{$post->post_type}}</td>
@@ -152,30 +156,7 @@
 
       <td>{{$post->price}}</td>
            
-      <form action="{{route('status', $post->id)}}" method="post">
-      {{method_field('PUT')}}
-      {{csrf_field()}}
-      @if($post->status== 'published')
-      <td style="color:green">
-        <button  type="submit" class="btn btn-success btn-md">
-        <input name="status" type="hidden"
-        @if($post->status =='published')
-        value="unpublished"
-        @endif>
-        published
-      </button>
-      </td>
-      @else
-      <td style="color:red">
-        <button  type="submit" class="btn btn-warning btn-md">
-        <input name="status" type="hidden"
-        @if($post->status =='unpublished')
-        value="published"
-        @endif>unpublished
-        </button>
-      </td>
-      @endif
-      </form>
+      <td class="text-center"><input type="checkbox" class="checkbox published" data-id="{{$post->id}}" @if ($post->status == 'published') checked @endif></td>
 
       <td>
         <a href="{{route('post.show', $post->id)}}">
@@ -199,12 +180,55 @@
     @endforelse
   </tbody>
 </table>
+
 {{$posts->appends(request()->only('title'))->links()}}
+
+<script>
+        $(document).ready(function(){
+          $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          });
+
+          $('.published').click(function(event){
+
+            event.preventDefault();
+            
+            console.log($(this).data('id')) 
+
+                id = $(this).data('id');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url('changeStatus') }}",
+                    data: {
+                        'id': id
+                    },
+                    success: function(data) {
+
+                        $('.checkbox').each(function(index){
+                          let $id = $(this).data('id')
+
+                          if( data['id'] === $id  ){
+                            if ( $(this).is( ":checked" ) ) $(this).prop('checked', false)
+                            else 
+                              $(this).prop('checked', true)
+
+                          }
+
+                        })
+
+                    },
+                });
+            });
+        });
+</script>
 
 @section('scripts')
     @parent
     <script src="{{asset('js/confirm.js')}}"></script>
 @endsection
+
 @section('scripts')
     @parent
     <script src="{{asset('js/deleteAll.js')}}"></script>

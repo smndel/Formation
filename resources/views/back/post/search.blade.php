@@ -7,27 +7,42 @@
 <h1>Admin</h1>
 @include('partials.menu')
 
-<div class='row' style='margin-left: auto;'>
-<a href="{{route('post.create')}}"><button>Ajouter un Post</button></a>
-</div>
-@if(isset($details))
+  <div class='row'>
+    
+    @include('partials.searchbarback')
+        @if($errors->has('q'))<span class="error" style="color : red;">{{$errors->first('q')}}</span>@endif
+  </div>
 
-<button style="margin-bottom: 10px; float:right;" class="btn btn-primary delete_all" data-url="{{ route('deleteAll')}}">Delete All Selected</button>
+   @include('back.post.partials.flash')
 
-@include('partials.searchbarback')
-@include('back.post.partials.flash')
+  <div class='row'>
+    <div class="col-md-4">
+    @if(isset($details))
+      {{$details->appends(request()->only('q'))->links()}}
+    </div>
+    
+    <div class="col-md-offset-4 col-md-2">
+        <a href="{{route('post.create')}}"><button class="btn btn-primary create" >Ajouter un Post</button></a>
+    </div>
 
-{{$details->appends(request()->only('q'))->links()}}
-<table class="table table-striped">
-  <thead>
+    <div class='col-md-2'>
+      <button class="btn btn-danger btn-md delete_all" data-url="{{ route('deleteAll')}}">
+        Delete All Selected
+      </button>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+   
     <tr>
-      <th width="50px"><input type="checkbox" id="master"></th>
-      <form action="{{route('post.searchsort', $details)}}" method="post">
+      <th><input type="checkbox" id="master"></th>
+       <form action="{{route('post.sort')}}" method="post" class="formsort">
       {{csrf_field()}}
       <th scope="col"><a href="{{route('post.index')}}">Title</a>       
         <div class="input-group">
                 <button type="submit form-control" name="title" value="titleAsc">
-                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true">
+                    <span  class="glyphicon glyphicon-chevron-up" aria-hidden="true">
                     </span>
                 </button>
                 <button type="submit form-control" name="title" value="titleDesc">
@@ -115,10 +130,12 @@
       <th scope="col">Editer</th>
       <th scope="col">Delete</th>
     </tr>
+    </form>
   </thead>
+
   <tbody>
 
-@if(isset($details))
+
     @forelse($details as $post)
     <tr>
       <td><input type="checkbox" class="sub_chk" data-id="{{$post->id}}"></td>
@@ -138,40 +155,55 @@
 
       <td>{{$post->price}}</td>
            
-      <td>
-      @forelse($post->teachers as $teacher)
-      {{$teacher->name}}
-      @empty
-      @endforelse
-      </td>
-      
+      <form action="{{route('status', $post->id)}}" method="post">
+      {{method_field('PUT')}}
+      {{csrf_field()}}
       @if($post->status== 'published')
       <td style="color:green">
-      {{$post->status}}
+        <button  type="submit" class="btn btn-success btn-md">
+        <input name="status" type="hidden"
+        @if($post->status =='published')
+        value="unpublished"
+        @endif>
+        published
+      </button>
       </td>
       @else
       <td style="color:red">
-      {{$post->status}}
+        <button  type="submit" class="btn btn-warning btn-md">
+        <input name="status" type="hidden"
+        @if($post->status =='unpublished')
+        value="published"
+        @endif>unpublished
+        </button>
       </td>
       @endif
+      </form>
 
-      <td><a href="{{route('post.show', $post->id)}}">voir</a></td>
-      <td><a href="{{route('post.edit', $post->id)}}">Editer</a></td>
+      <td>
+        <a href="{{route('post.show', $post->id)}}">
+          <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+        </a>
+      </td>
+      <td>
+        <a href="{{route('post.edit', $post->id)}}">
+          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+        </a>
+      </td>
       <td>
         <form class="delete" action="{{route('post.destroy', $post->id)}}" method="POST">
+           <button type="submit" class="btn btn-danger btn-md" value="delete"><i class="fa fa-times"> Delete</button>
            <input type="hidden" name="_method" value="DELETE">
            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-           <input type="submit" value="Delete" style="background-color: #B35935; color: white;">
         </form>
       </td>
     </tr>
     @empty
     @endforelse
-    @endif
   </tbody>
 </table>
 {{$details->appends(request()->only('q'))->links()}}
- @else
+  @else
         <p>Aucun résultat ne correspond à votre recherche</p>     
         @endif 
 

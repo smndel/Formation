@@ -8360,6 +8360,11 @@ button.close {
   margin: 10px 10px 10px 15px;
 }
 
+.btn.btn-primary.create {
+  vertical-align: bottom;
+  margin: 10px 10px 10px 15px;
+}
+
 .searchbarback {
   padding-right: 0;
 }

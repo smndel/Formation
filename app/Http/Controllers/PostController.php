@@ -16,6 +16,14 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        view()->composer('partials.menu', function($view){
+            $types = Post::pluck('post_type', 'id')->unique();
+            $view->with('types', $types);
+        });
+    }
+
+
     public function index()
     {
         $posts = Post::paginate(10);
@@ -234,7 +242,7 @@ class PostController extends Controller
         $ids = $request->ids;
         Post::whereIn('id',explode(",",$ids))->delete();
 
-        return response()->json(['success'=>"Products Deleted successfully."]);
+        return response()->json(['success'=>"Posts Deleted successfully."]);
     }
 
     public function search(Request $request)
@@ -253,39 +261,30 @@ class PostController extends Controller
     }
 
 
-    public function sortDashboard(Request $request)
-    {
+   public function sortDashboard(Request $request){
+
         $title = $request->title;
 
         $posts = Post::sortBack($title);
 
-        return view('back.post.index', ['posts' => $posts]);    
+        return view('back.post.index', ['posts' => $posts]);
+    
     }
 
-     public function sortSearchDashboard(Request $request, $details)
+    public function changeStatus(Request $request) 
     {
-        $title = $request->title;
+        $id = $request->id?? null;
 
-        $posts = $details->sortBack($title);
-        
-        if (count ( $posts ) > 0)
-
-            return view ('back.post.search' )->withDetails($posts)->withQuery( $q );
-        else
-
-            return view ('back.post.search' );     
-    }
-
-    public function changeStatus(Request $request, $id){
-        $post=Post::find($id);
-
-        if($post->status == 'published'){
-            $post->update($request->all());
+        $post = Post::find($id);
+        if ($post->status == 'published'){
+            $post->status = 'unpublished';
         }else{
-            $post->update($request->all());
+            $post->status = 'published';
         }
-        return redirect()->back();
+        
+        $post->save();
 
-
+        return response()->json($post);
     }
+
 }

@@ -27,25 +27,33 @@ Route::post('contact',  'ContactController@mailToAdmin');
 
 //Route pour la barre de recherche:
 Route::any('search', 'FrontController@search')->name('search');
-Route::any('searchback', 'PostController@search')->name('post.search');
 
 //routes sécurisées
 Route::resource('admin/post', 'PostController')->middleware('auth');
 
-//Route pour DeleteAll sur le dashboard Back:
-Route::delete('myproductsDeleteAll', 'Postcontroller@deleteAll')->name('deleteAll');
-
-
-Route::any('sort', 'PostController@sortDashboard')->name('post.sort');
-Route::any('sortSearch/{details}', 'PostController@sortSearchDashboard')->name('post.searchsort');
-
-	
-Route::get('ajax', function(){ return view('ajax'); });
-Route::post('/postajax','AjaxController@post');
-
-Route::any('status{id}', 'PostController@changeStatus')->name('status');
-
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(
+	function(){
+		Route::any('searchback', 'PostController@search')->name('post.search');
+		//Route pour DeleteAll sur le dashboard Back:
+		Route::delete('myproductsDeleteAll', 'Postcontroller@deleteAll')->name('deleteAll');
+
+		//Route pour le tri du tableau sur le Dashboard
+		Route::get('sort', 'PostController@sortDashboard')->name('post.sort');
+		Route::post('sort', 'PostController@sortDashboard');
+
+		//Route pour modifier directement sur le Dashboard, le status des posts
+		Route::post('changeStatus', 'PostController@changeStatus')->name('changeStatus');
+	});
+
+
+
+
+
+
+
+
+

@@ -6,6 +6,7 @@
 
 @include('partials.menu')
 
+
 <form action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
     <!-- Token de sécurité : -->
     {{csrf_field()}}
@@ -80,25 +81,35 @@
         <button type="submit" href="{{route('post.store')}}" class="col-md-6">Ajouter un Post</button>
     </div><br>
         
-    <div class="form-group">
-        <label for="started_at">Début :</label>
-        <input type="datetime-local" name="started_at" value="{{old('started_at')}}">
-        @if($errors->has('started_at'))
-        <span class="error" style="color : red;">
-        {{$errors->first('started_at')}}
-      </span>
-      @endif
-    </div>
+            <div class="control-group">
+                <label class="control-label">Début</label>
+                <div class="controls input-append date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input size="16" type="text" readonly name="started_at">
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+                <input type="hidden" id="dtp_input1" value="" /><br/>
+                @if($errors->has('started_at'))
+                <span class="error" style="color : red;">
+                {{$errors->first('started_at')}}
+                </span>
+                @endif
+            </div>
 
-    <div class="form-group">
-        <label for="ended_at">Fin :</label>
-        <input type="datetime-local" name="ended_at" value="{{old('ended_at')}}">
-        @if($errors->has('ended_at'))
-        <span class="error" style="color : red;">
-        {{$errors->first('ended_at')}}
-      </span>
-      @endif
-    </div>    
+            <div class="control-group">
+                <label class="control-label">Début</label>
+                <div class="controls input-append date form_datetime" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
+                    <input size="16" type="text" readonly name="ended_at">
+                    <span class="add-on"><i class="icon-remove"></i></span>
+                    <span class="add-on"><i class="icon-th"></i></span>
+                </div>
+                <input type="hidden" id="dtp_input1" value="" /><br/>
+                @if($errors->has('started_at'))
+                <span class="error" style="color : red;">
+                {{$errors->first('started_at')}}
+                </span>
+                @endif
+            </div>
 
 
     <div class="form-group">
@@ -142,6 +153,7 @@
 
 </div>
 </form>
+
 @section('scripts')
     @parent
     <script src="{{asset('js/confirm.js')}}"></script>  
