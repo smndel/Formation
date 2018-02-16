@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 use App\post;
 use App\Category;
 use App\Teacher;
@@ -31,7 +32,6 @@ class PostController extends Controller
         return view('back.post.index', ['posts' => $posts]);
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -52,40 +52,21 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-
-        $this->validate($request,
-        [
-            'title' => 'required',
-            'started_at' => 'required|date|after:tomorrow',
-            'ended_at' => 'required|date|after:started_at',
-            'description' => 'required',
-            'post_type' => 'required|in:formation,stage',
-            'category_id' => 'required|integer',
-            'teachers' => 'array',
-            'teachers.*' => 'int',
-            'status' => 'in:published,unpublished',
-            'picture' => 'image|mimes:jpg,png,jpeg',
-            'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-            'student_max' => 'required|integer',
-        ]);
-
-
         //hydratation des données du Post enregistré en base de données
         $post = post::create($request->all());
         $post->teachers()->attach($request->teachers);
 
         $img = $request->file('picture');
+            
         if(!empty($img)){
 
-        //Méthode store retourne un link hash sécurisé
-        $link = $request->file('picture')->store('./');
-        //Mettre à jour la table picture pour le lien vers l'image dans la base de donnée
-        $post->picture()->create([
-        'link' => $link,
-        // 'title' => $request->title_image?? $request->title
-        ]);
+            $link = $request->file('picture')->store('./');
+     
+            $post->picture()->create([
+            'link' => $link,
+            ]);
         }
       
         return redirect()->route('post.index')->with('message', 'success');
@@ -126,84 +107,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(PostRequest $request, $id)
     {
-        if(!($request['started_at'])AND(!($request['ended_at']))){
-
-            unset($request['ended_at']);
-            unset($request['started_at']);
-
-            $this->validate($request,
-            [
-                'title' => 'required',
-                'description' => 'required',
-                'post_type' => 'required|in:formation,stage',
-                'category_id' => 'required|integer',
-                'teachers' => 'array',
-                'teachers.*' => 'int',
-                'status' => 'in:published,unpublished',
-                'picture' => 'image|mimes:jpg,png,jpeg',
-                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-                'student_max' => 'required|integer',
-            ]);
-
-        }elseif(!($request['ended_at'])){
-            
-            unset($request['ended_at']);
-            
-            $this->validate($request,
-            [
-                'title' => 'required',
-                'description' => 'required',
-                'post_type' => 'required|in:formation,stage',
-                'category_id' => 'required|integer',
-                'teachers' => 'array',
-                'teachers.*' => 'int',
-                'status' => 'in:published,unpublished',
-                'picture' => 'image|mimes:jpg,png,jpeg',
-                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-                'student_max' => 'required|integer',
-                'started_at' => 'required|date|after:tomorrow',
-            ]);
-
-        }elseif(!($request['started_at'])){
-            
-            unset($request['started_at']);
-            
-            $this->validate($request,
-            [
-                'title' => 'required',
-                'description' => 'required',
-                'post_type' => 'required|in:formation,stage',
-                'category_id' => 'required|integer',
-                'teachers' => 'array',
-                'teachers.*' => 'int',
-                'status' => 'in:published,unpublished',
-                'picture' => 'image|mimes:jpg,png,jpeg',
-                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-                'student_max' => 'required|integer',
-                'ended_at' => 'required|date|after:started_at',
-            ]);
-
-        }else{
-
-            $this->validate($request,
-            [
-                'title' => 'required',
-                'description' => 'required',
-                'post_type' => 'required|in:formation,stage',
-                'category_id' => 'required|integer',
-                'teachers' => 'array',
-                'teachers.*' => 'int',
-                'status' => 'in:published,unpublished',
-                'picture' => 'image|mimes:jpg,png,jpeg',
-                'price' => 'required|regex:/^\d*(\.\d{1,2})?$/',
-                'student_max' => 'required|integer',
-                'started_at' => 'required|date|after:tomorrow',
-                'ended_at' => 'required|date|after:started_at',
-            ]);
-        }
-
         $post = Post::find($id); 
         $post->update($request->all()); 
         $post->teachers()->sync($request->teachers); 
@@ -211,12 +117,14 @@ class PostController extends Controller
         $image = $request->file('picture');    
 
         if(!empty($image)){
+            
             if(count($post->picture)>0){
                 Storage::disk('local')->delete($post->picture->link);
                 $post->picture()->delete();
-        }
-            $link = $request->file('picture')->store('./');
-            $post->picture()->create(['link' => $link]);
+            }
+
+        $link = $request->file('picture')->store('./');
+        $post->picture()->create(['link' => $link]);
         }
        
         return redirect()->route('post.index')->with('message', 'success');
@@ -237,6 +145,7 @@ class PostController extends Controller
         return redirect()->route('post.index')->with('message', 'success');
     }
 
+    //Fonction pour la supression multiple sur le Dashboard
     public function deleteAll(Request $request)
     {
         $ids = $request->ids;
@@ -245,6 +154,7 @@ class PostController extends Controller
         return response()->json(['success'=>"Posts Deleted successfully."]);
     }
 
+    //Fonction pour la barre de recherche sur le Dashboard
     public function search(Request $request)
     {
        $q = $request->q; 
@@ -254,14 +164,16 @@ class PostController extends Controller
 
         if (count ( $posts ) > 0)
             
-            return view ('back.post.search' )->withDetails($posts)->withQuery( $q );
+        return view ('back.post.search' )->withDetails($posts)->withQuery( $q );
+        
         else
 
-            return view ('back.post.search' );
+        return view ('back.post.search' );
     }
 
 
-   public function sortDashboard(Request $request){
+    //Tri du tableau sur le dashboard
+    public function sortDashboard(Request $request){
 
         $title = $request->title;
 
@@ -271,20 +183,27 @@ class PostController extends Controller
     
     }
 
+    //Changement du status avec AJAX
     public function changeStatus(Request $request) 
     {
         $id = $request->id?? null;
 
         $post = Post::find($id);
+
         if ($post->status == 'published'){
+
             $post->status = 'unpublished';
+
         }else{
+            
             $post->status = 'published';
         }
-        
+
         $post->save();
 
-        return response()->json($post);
+        $data = ['id' => $post->id, 'status' => $post->status];
+
+        return response()->json($data);
     }
 
 }

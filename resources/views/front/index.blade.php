@@ -32,9 +32,11 @@
                         <div class="col-md-6">
                             <h4>Description :</h4>
                                 <p>{{$post->description}}</p>
+
                             <h4>Dates :</h4>
                                 <p>Commence le : {{$post->started_at}}</p>
                                 <p>Fini le : {{$post->ended_at}}</p>
+                                
                             <h4>Le(s) Intervenant(s):</h4>
                                 <ul>
                                     @foreach($post->teachers as $teacher)

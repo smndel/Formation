@@ -34,20 +34,13 @@ class Post extends Model
 
     public function setCategoryIdAttribute($value){
         if($value == 0){
+
             $this->attributes['category_id'] = null;
+
         }else{
+            
             $this->attributes['category_id'] = $value;
         }
-    }
-
-    public function getStartedAtAttribute($value){
-
-        return Carbon::parse($value)->format('d-m-Y H:i');
-    }
-
-    public function getEndedAtAttribute($value){
-
-        return Carbon::parse($value)->format('d-m-Y H:i');
     }
 
     public function scopePublished($query){
@@ -59,15 +52,11 @@ class Post extends Model
     {
         return $query->where( 'title', 'LIKE', '%' . $q . '%' )
                     ->orWhere('post_type', 'LIKE', '%' . $q . '%' )
-                    ->orWhere('description', 'LIKE', '%' . $q . '%' );
+                    ->orWhere('description', 'LIKE', '%' . $q . '%' )
+                    ->orWhereHas('category', function($searchforeign) use ($q){
+                            return $searchforeign->where('name', 'LIKE', '%'.$q.'%');
+                    });
     }
-
-    // Ajax method 
-    // public function scopeOrderSens($query, $sens = 'DESC')
-    // {
-
-    //     return $query->orderby('title', $sens); // dès que Eloquent retourne une erreur => erreur 500
-    // }
 
     public function scopeSortBack($query, $title){
 
@@ -77,8 +66,5 @@ class Post extends Model
         $sens = $titleTab[1];
 
         return $query->orderby($champ,$sens)->paginate(10); 
-
-    }
-
-    
+    }   
 }

@@ -12,8 +12,11 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .js('resources/assets/js/confirm.js', 'public/js')
-   .js('resources/assets/js/deleteAll.js', 'public/js')
+   .scripts(
+      ['resources/assets/js/confirm.js', 
+      'resources/assets/js/deleteAll.js', 
+      'resources/assets/js/changeStatus.js' 
+      ], 'public/js/all.js')
    .sass('resources/assets/sass/app.scss', 'public/css')
    .browserSync({
    		proxy: {
@@ -31,3 +34,4 @@ mix.js('resources/assets/js/app.js', 'public/js')
                'public/assets/css/**/*.css'
          ]
    });
+

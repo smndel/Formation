@@ -9,6 +9,7 @@
         @if(isset($details))
             {{$details->appends(request()->only('q'))->links()}}
         <p> Le(s) résultat(s) de votre recherche sur "<b> {{ $query }} </b>" sont :</p>
+        
         <ul class="list-group">
         @forelse($details as $post)
             <li class="list-group-item">
